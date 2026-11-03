@@ -1,5 +1,8 @@
 # T2 - Programacao de Software Basico
 
+[Material de apresentacao em PDF](output/pdf/apresentacao_t2.pdf): oito paginas
+com trechos do codigo, explicacoes, exemplo de fragmentacao e roteiro de fala.
+
 Implementacao dos itens **3, 5 e 6**, considerando a ordem das funcoes
 da secao 2.2 do enunciado. Os itens 1 (`mymemory_init`), 2
 (`mymemory_alloc`) e 4 (`mymemory_display`) ficam com a dupla e ainda
