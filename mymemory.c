@@ -25,7 +25,6 @@ mymemory_t *mymemory_init(size_t size) {
     return memory;
 }
 
-
 void *mymemory_alloc(mymemory_t *memory, size_t size) {
     if (memory == NULL || memory->pool == NULL || size == 0) {
         return NULL;
@@ -70,7 +69,6 @@ void *mymemory_alloc(mymemory_t *memory, size_t size) {
     return allocation->start;
 }
 
-
 /* Item 3: retira somente o nodo de controle; o pool continua existindo. */
 void mymemory_free(mymemory_t *memory, void *ptr)
 {
@@ -86,6 +84,27 @@ void mymemory_free(mymemory_t *memory, void *ptr)
             return;
         }
         link = &current->next;
+    }
+}
+
+void mymemory_display(mymemory_t *memory) {
+    if (memory == NULL) {
+        puts("Memoria nao inicializada.");
+        return;
+    }
+
+    if (memory->head == NULL) {
+        puts("Nenhuma alocacao ativa.");
+        return;
+    }
+
+    size_t index = 1;
+
+    for (allocation_t *current = memory->head;
+         current != NULL;
+         current = current->next) {
+        printf("Alocacao %zu: inicio = %p, tamanho = %zu bytes\n",
+               index++, current->start, current->size);
     }
 }
 
