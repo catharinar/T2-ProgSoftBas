@@ -26,6 +26,51 @@ mymemory_t *mymemory_init(size_t size) {
 }
 
 
+void *mymemory_alloc(mymemory_t *memory, size_t size) {
+    if (memory == NULL || memory->pool == NULL || size == 0) {
+        return NULL;
+    }
+
+    unsigned char *pool = memory->pool;
+    size_t offset = 0;
+    allocation_t *previous = NULL;
+    allocation_t *current = memory->head;
+
+    while (current != NULL) {
+        size_t start = (unsigned char *)current->start - pool;
+
+        if (start - offset >= size) {
+            break;
+        }
+
+        offset = start + current->size;
+        previous = current;
+        current = current->next;
+    }
+
+    if (current == NULL && memory->total_size - offset < size) {
+        return NULL;
+    }
+
+    allocation_t *allocation = malloc(sizeof *allocation);
+    if (allocation == NULL) {
+        return NULL;
+    }
+
+    allocation->start = pool + offset;
+    allocation->size = size;
+    allocation->next = current;
+
+    if (previous == NULL) {
+        memory->head = allocation;
+    } else {
+        previous->next = allocation;
+    }
+
+    return allocation->start;
+}
+
+
 /* Item 3: retira somente o nodo de controle; o pool continua existindo. */
 void mymemory_free(mymemory_t *memory, void *ptr)
 {
