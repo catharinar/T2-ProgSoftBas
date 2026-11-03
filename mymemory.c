@@ -3,6 +3,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+mymemory_t *mymemory_init(size_t size) {
+    if (size == 0) {
+        return NULL;
+    }
+
+    mymemory_t *memory = malloc(sizeof *memory);
+    if (memory == NULL) {
+        return NULL;
+    }
+
+    memory->pool = malloc(size);
+    if (memory->pool == NULL) {
+        free(memory);
+        return NULL;
+    }
+
+    memory->total_size = size;
+    memory->head = NULL;
+
+    return memory;
+}
+
+
 /* Item 3: retira somente o nodo de controle; o pool continua existindo. */
 void mymemory_free(mymemory_t *memory, void *ptr)
 {
